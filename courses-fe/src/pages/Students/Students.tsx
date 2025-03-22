@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import { StyledBoxContainer, StyledButtonContainer } from "./Students.styles";
+import { StyledHeaderContainer } from "./Students.styles";
 import Table from "../../components/Table";
 import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -7,6 +7,8 @@ import DeleteButtonModal from "../../components/DeleteButtonModal/DeleteButtonMo
 import { StudentApi } from "../../api/StudentApi";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
+import { StyledBoxContainer } from "../../components/StyledBoxContainer/StyledBoxContainer";
+import { PATHS } from "../../constants/api.constants";
 
 const handleDelete = async (studentId?: number) => {
   if (!studentId) return;
@@ -61,18 +63,18 @@ const Students = () => {
   return (
     <StyledBoxContainer>
       <Box>
-        <StyledButtonContainer>
+        <StyledHeaderContainer>
           <Typography variant="h5" gutterBottom>
             Students
           </Typography>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={() => navigate("/student")}
+            onClick={() => navigate(PATHS.student)}
           >
             Add
           </Button>
-        </StyledButtonContainer>
+        </StyledHeaderContainer>
         <Table data={students} columns={columns} />
       </Box>
     </StyledBoxContainer>

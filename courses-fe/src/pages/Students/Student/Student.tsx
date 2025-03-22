@@ -4,38 +4,13 @@ import {
   Card,
   CardContent,
   FormControl,
-  List,
-  ListItem,
   TextField,
   Typography,
 } from "@mui/material";
-import { StyledBoxContainer } from "../Students.styles";
 import EnrollmentModal from "../../../components/EnrollmentModal/EnrollmentModal";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
-
-const student = {
-  id: 1,
-  name: "Student",
-  lastName: "Student",
-  courses: [
-    {
-      id: 1,
-      title: "Curso de React",
-      description: "Curso de React",
-    },
-    {
-      id: 2,
-      title: "Curso de Angular",
-      description: "Curso de Angular",
-    },
-    {
-      id: 3,
-      title: "Curso de Vue",
-      description: "Curso de Vue",
-    },
-  ],
-};
+import { StyledBoxContainer } from "../../../components/StyledBoxContainer/StyledBoxContainer";
 
 const Student = () => {
   const [open, setOpen] = useState(false);
@@ -44,14 +19,14 @@ const Student = () => {
       <Card>
         <CardContent>
           <Typography variant="h4" gutterBottom>
-            {student.name} {student.lastName}
+            Student
           </Typography>
-          <Box sx={{ display: "flex", gap: 1, my: 4 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, my: 4, maxWidth: "600px" }}>
             <FormControl fullWidth>
-              <TextField label="Student Name" variant="outlined" />
+              <TextField label="Name" variant="outlined" />
             </FormControl>
             <FormControl fullWidth>
-              <TextField label="Student Last Name" variant="outlined" />
+              <TextField label="Last Name" variant="outlined" />
             </FormControl>
           </Box>
           <Button
@@ -63,15 +38,8 @@ const Student = () => {
             Enrollment Student
           </Button>
           <Typography variant="h6" color="textSecondary">
-            Cursos asignados
+            Courses
           </Typography>
-          <List>
-            {student.courses.map((course, index) => (
-              <ListItem key={index} divider>
-                {course.title}
-              </ListItem>
-            ))}
-          </List>
         </CardContent>
       </Card>
       <EnrollmentModal
