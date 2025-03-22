@@ -1,5 +1,7 @@
 package com.courses.courses_be.service.impl;
 
+import com.courses.courses_be.dto.CourseDTO;
+import com.courses.courses_be.dto.CourseDtoMapper;
 import com.courses.courses_be.entity.CourseEntity;
 import com.courses.courses_be.entity.StudentCourseEntity;
 import com.courses.courses_be.repository.CourseRepository;
@@ -28,8 +30,9 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseEntity findCourseById(Long courseId) {
-        return courseRepository.findCoursetWithStudentsById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
+    public CourseDTO findCourseById(Long courseId) {
+        CourseEntity courseEntity = courseRepository.findCoursetWithStudentsById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
+        return CourseDtoMapper.fromEntity(courseEntity, true);
     }
 
     @Override

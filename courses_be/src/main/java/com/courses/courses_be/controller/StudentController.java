@@ -1,5 +1,6 @@
 package com.courses.courses_be.controller;
 
+import com.courses.courses_be.dto.StudentDTO;
 import com.courses.courses_be.entity.StudentEntity;
 import com.courses.courses_be.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getStudent(@PathVariable(name = "id") Long id) {
-        StudentEntity studentEntity = studentService.findStudentById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(studentEntity);
+    public ResponseEntity<StudentDTO> getStudent(@PathVariable(name = "id") Long id) {
+        StudentDTO studentDTO = studentService.findStudentById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(studentDTO);
     }
 
     @PostMapping()

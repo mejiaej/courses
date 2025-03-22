@@ -1,5 +1,6 @@
 package com.courses.courses_be.service;
 
+import com.courses.courses_be.dto.StudentDTO;
 import com.courses.courses_be.entity.StudentEntity;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public interface StudentService {
     List<StudentEntity> getAllStudents();
 
-    StudentEntity findStudentById(Long studentId);
+    StudentDTO findStudentById(Long studentId);
 
     StudentEntity saveStudent(StudentEntity student);
 

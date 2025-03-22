@@ -1,5 +1,8 @@
 package com.courses.courses_be.service.impl;
 
+import com.courses.courses_be.dto.StudentDTO;
+import com.courses.courses_be.dto.StudentDtoMapper;
+import com.courses.courses_be.entity.CourseEntity;
 import com.courses.courses_be.entity.StudentCourseEntity;
 import com.courses.courses_be.entity.StudentEntity;
 import com.courses.courses_be.repository.StudentCourseRepository;
@@ -29,8 +32,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentEntity findStudentById(Long studentId) {
-        return studentRepository.findStudentWithCoursesById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
+    public StudentDTO findStudentById(Long studentId) {
+        StudentEntity studentEntity = studentRepository.findStudentWithCoursesById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
+        return StudentDtoMapper.fromEntity(studentEntity, true);
     }
 
     @Override

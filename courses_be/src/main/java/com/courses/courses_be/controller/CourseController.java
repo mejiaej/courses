@@ -1,5 +1,6 @@
 package com.courses.courses_be.controller;
 
+import com.courses.courses_be.dto.CourseDTO;
 import com.courses.courses_be.entity.CourseEntity;
 import com.courses.courses_be.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseEntity> getCourse(@PathVariable(name = "id") Long id) {
-        CourseEntity courseEntity = courseService.findCourseById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(courseEntity);
+    public ResponseEntity<CourseDTO> getCourse(@PathVariable(name = "id") Long id) {
+        CourseDTO courseDTO = courseService.findCourseById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(courseDTO);
     }
 
     @PostMapping()
