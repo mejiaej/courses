@@ -1,19 +1,54 @@
 import {
   Box,
-  Button,
   Card,
   CardContent,
   FormControl,
+  IconButton,
+  List,
+  ListItem,
   TextField,
   Typography,
 } from "@mui/material";
-import EnrollmentModal from "../../../components/EnrollmentModal/EnrollmentModal";
-import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CoursesButtonModal from "../../../components/CoursesButtonModal/CoursesButtonModal";
+import { useEffect, useState } from "react";
 import { StyledBoxContainer } from "../../../components/StyledBoxContainer/StyledBoxContainer";
+import { CourseApi } from "../../../api/CourseApi";
+import { StudentModel } from "../../../models/StudentModel";
+import { CourseModel } from "../../../models/CourseModel";
 
 const Student = () => {
-  const [open, setOpen] = useState(false);
+  const [courses, setCourses ] = useState<CourseModel[]>([]);
+  const [student, setStudent] = useState<StudentModel>({
+    id: 0,
+    name: "",
+    lastName: "",
+    courses: [],
+  });
+
+  useEffect(() => {
+    CourseApi.getCourses().then((response) => {
+      setCourses(response.data);
+    });
+  }, []);
+
+  const handleCourseSelection = (selectedCourseId: number) => {
+    const selectedCourse = courses.find((c) => c.id === selectedCourseId);
+    if (selectedCourse) {
+      setStudent((prev) => ({
+        ...prev,
+        courses: [...prev.courses, selectedCourse],
+      }));
+    }
+  };
+
+  const handleRemoveCourse = (courseId: number) => {
+    setStudent((prev) => ({
+      ...prev,
+      courses: prev.courses.filter((course) => course.id !== courseId),
+    }));
+  };
+
   return (
     <StyledBoxContainer>
       <Card>
@@ -29,26 +64,24 @@ const Student = () => {
               <TextField label="Last Name" variant="outlined" />
             </FormControl>
           </Box>
-          <Button
-            onClick={() => {
-              setOpen(true);
-            }}
-            startIcon={<AddIcon />}
-          >
-            Enrollment Student
-          </Button>
-          <Typography variant="h6" color="textSecondary">
-            Courses
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Typography variant="h6" color="textSecondary">
+              Courses
+            </Typography>
+            <CoursesButtonModal onCourseSelected={handleCourseSelection} courses={courses} currentCourses={student.courses} />
+          </Box>
+          <List>
+            {student.courses.map((course, index) => (
+              <ListItem key={index} divider>
+                {course.title}
+                <IconButton edge="end" onClick={() => handleRemoveCourse(course.id)} sx={{ color: "red" }}>
+                  <CancelIcon />
+                </IconButton>
+              </ListItem>
+            ))}
+          </List>
         </CardContent>
       </Card>
-      <EnrollmentModal
-        open={open}
-        onClose={() => setOpen(false)}
-        onCourseSelected={() => {
-          console.log("submit");
-        }}
-      />
     </StyledBoxContainer>
   );
 };
