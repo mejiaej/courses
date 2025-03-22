@@ -30,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentEntity findStudentById(Long studentId) {
-        return studentRepository.findById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
+        return studentRepository.findStudentWithCoursesById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
     }
 
     @Override

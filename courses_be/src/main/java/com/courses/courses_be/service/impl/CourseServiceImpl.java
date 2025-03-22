@@ -29,7 +29,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseEntity findCourseById(Long courseId) {
-        return courseRepository.findById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
+        return courseRepository.findCoursetWithStudentsById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
     }
 
     @Override
