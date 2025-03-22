@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteButtonModal from "../../components/DeleteButtonModal/DeleteButtonModal";
 import { StudentApi } from "../../api/StudentApi";
-import { useNavigate } from "react-router-dom";
+import { generatePath, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { StyledBoxContainer } from "../../components/StyledBoxContainer/StyledBoxContainer";
 import { PATHS } from "../../constants/api.constants";
@@ -34,10 +34,16 @@ const columns = [
     header: "Actions",
     cell: ({ row }) => {
       const id = row?.original?.id;
-
+      const navigate = useNavigate();
+      const editPath = generatePath(PATHS.editStudent, { id });
       return (
         <Box sx={{ display: "flex", gap: 1 }}>
-          <Button variant="contained" color="primary" startIcon={<EditIcon />}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<EditIcon />}
+            onClick={() => navigate(editPath)}
+          >
             Edit
           </Button>
           <DeleteButtonModal
@@ -70,7 +76,7 @@ const Students = () => {
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={() => navigate(PATHS.student)}
+            onClick={() => navigate(PATHS.newStudent)}
           >
             Add
           </Button>

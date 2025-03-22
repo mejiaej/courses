@@ -4,5 +4,7 @@ export const  PATHS = {
     courses: "/courses",
     course: "/course",
     students: "/students",
-    student: "/student"
+    student: "/student",
+    newStudent: "/student/new",
+    editStudent: "/student/:id",
 }
