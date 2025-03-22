@@ -1,0 +1,31 @@
+services:
+  flyway:
+    image: flyway/flyway
+    command: -url='jdbc:mysql://mysql:3306/courses?allowPublicKeyRetrieval=true&permitMysqlScheme=true' -schemas=courses -user=admin -password=admin -baselineOnMigrate=true -connectRetries=60 migrate
+    volumes:
+      - ./src/main/resources/migration:/flyway/sql
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0.36
+    container_name: mysql_courses
+    environment:
+      - MYSQL_DATABASE=courses
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=root
+    command: --sql_generate_invisible_primary_key=ON
+    volumes:
+      - courses-volume:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+    restart: unless-stopped
+    healthcheck:
+      test: "mysql -h mysql -uadmin -padmin courses -e 'SELECT 1;'"
+      interval: 10s
+      retries: 10
+volumes:
+  courses-volume:
