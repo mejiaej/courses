@@ -14,19 +14,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "course")
-public class CourseEntity {
+@Table(name = "student")
+public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "last_name")
+    private String lastName;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<StudentCourseEntity> studentCourses;
 }

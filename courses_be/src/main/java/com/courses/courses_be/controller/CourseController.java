@@ -32,8 +32,8 @@ public class CourseController {
 
     @PostMapping()
     public ResponseEntity<CourseEntity> saveCourse(@RequestBody CourseEntity course) {
-            CourseEntity courseEntity = courseService.saveCourse(course);
-            return ResponseEntity.ok(courseEntity);
+        CourseEntity courseEntity = courseService.saveCourse(course);
+        return ResponseEntity.ok(courseEntity);
     }
 
     @PutMapping("/{id}")
