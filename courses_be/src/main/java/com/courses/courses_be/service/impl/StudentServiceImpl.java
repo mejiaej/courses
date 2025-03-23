@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -27,8 +28,11 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public List<StudentEntity> getAllStudents() {
-        return studentRepository.findAll();
+    public List<StudentDTO> getAllStudents() {
+        List<StudentEntity> students = studentRepository.findAll();
+        return students.stream()
+            .map(student -> StudentDtoMapper.fromEntity(student, false))
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -39,8 +43,16 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public StudentEntity saveStudent(StudentEntity student) {
-        return studentRepository.save(student);
+    public void saveStudent(StudentDTO studentDTO) {
+        StudentEntity studentEntity = new StudentEntity(studentDTO.getId(), studentDTO.getName(), studentDTO.getLastName(), null);
+        studentRepository.save(studentEntity);
+        List<StudentCourseEntity> studentCourseEntities = studentDTO.getCourses().stream().map(courseDTO -> {
+            StudentCourseEntity newStudentCourseEntity = new StudentCourseEntity();
+            newStudentCourseEntity.setCourse(new CourseEntity(courseDTO.getId(), null, null, null));
+            newStudentCourseEntity.setStudent(studentEntity);
+            return newStudentCourseEntity;
+        }).toList();
+        studentCourseRepository.saveAll(studentCourseEntities);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class CourseDtoMapper {
         courseDTO.setTitle(courseEntity.getTitle());
         courseDTO.setDescription(courseEntity.getDescription());
 
-        if (mapNested && courseEntity.getStudentCourses() != null) {
+        if (mapNested && courseEntity.getStudentCourses() != null && !courseEntity.getStudentCourses().isEmpty()) {
             courseDTO.setStudents(
                 courseEntity.getStudentCourses().stream()
                     .map(sc -> StudentDtoMapper.fromEntity(sc.getStudent(), false))

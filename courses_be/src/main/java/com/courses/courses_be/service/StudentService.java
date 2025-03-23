@@ -6,11 +6,11 @@ import com.courses.courses_be.entity.StudentEntity;
 import java.util.List;
 
 public interface StudentService {
-    List<StudentEntity> getAllStudents();
+    List<StudentDTO> getAllStudents();
 
     StudentDTO findStudentById(Long studentId);
 
-    StudentEntity saveStudent(StudentEntity student);
+    void saveStudent(StudentDTO student);
 
     StudentEntity updateStudent(Long studentId, StudentEntity student);
 

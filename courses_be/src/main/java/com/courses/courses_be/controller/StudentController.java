@@ -20,7 +20,7 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<?> getStudents() {
-        List<StudentEntity> studentsList = studentService.getAllStudents();
+        List<StudentDTO> studentsList = studentService.getAllStudents();
         return ResponseEntity.status(HttpStatus.OK).body(studentsList);
     }
 
@@ -31,9 +31,9 @@ public class StudentController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> saveCourse(@RequestBody StudentEntity student) {
-        StudentEntity studentEntity = studentService.saveStudent(student);
-        return ResponseEntity.ok(studentEntity);
+    public ResponseEntity<?> saveCourse(@RequestBody StudentDTO student) {
+        studentService.saveStudent(student);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
