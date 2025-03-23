@@ -39,7 +39,7 @@ const StudentForm = (props: StudentFormProps) => {
     if (selectedCourse) {
       setStudent((prev) => ({
         ...prev,
-        courses: [...prev.courses, selectedCourse],
+        courses: [...prev?.courses, selectedCourse],
       }));
     }
   };
@@ -99,7 +99,7 @@ const StudentForm = (props: StudentFormProps) => {
             <CoursesButtonModal onCourseSelected={handleCourseSelection} courses={allCourses} currentCourses={student.courses} />
           </Box>
           <List>
-            {student.courses.map((course, index) => (
+            {student.courses?.map((course, index) => (
               <ListItem key={index} divider>
                 {`${course.code} - ${course.title}`}
                 <IconButton edge="end" onClick={() => handleRemoveCourse(course.id)} sx={{ color: "red" }}>

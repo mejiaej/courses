@@ -38,7 +38,7 @@ const CoursesButtonModal = ({
   };
 
   const availableCourses = courses.filter(
-    (course) => !currentCourses.some((currentCourse) => currentCourse.id === course.id)
+    (course) => !currentCourses?.some((currentCourse) => currentCourse.id === course.id)
   );
 
   return (

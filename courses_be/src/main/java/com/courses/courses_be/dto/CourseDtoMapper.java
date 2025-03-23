@@ -2,6 +2,7 @@ package com.courses.courses_be.dto;
 
 import com.courses.courses_be.entity.CourseEntity;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class CourseDTOMapper {
@@ -18,6 +19,8 @@ public class CourseDTOMapper {
                     .map(sc -> StudentDTOMapper.fromEntity(sc.getStudent(), false))
                     .collect(Collectors.toList())
             );
+        } else {
+            courseDTO.setStudents(new ArrayList<>());
         }
 
         return courseDTO;

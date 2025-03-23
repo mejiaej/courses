@@ -38,7 +38,7 @@ const StudentsButtonModal = ({
   };
 
   const availableStudents = students.filter(
-    (student) => !currentStudents.some((currentStudent) => currentStudent.id === student.id)
+    (student) => !currentStudents?.some((currentStudent) => currentStudent.id === student.id)
   );
 
   return (

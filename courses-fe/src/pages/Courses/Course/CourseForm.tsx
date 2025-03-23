@@ -107,7 +107,7 @@ const CourseForm = (props: CourseFormProps) => {
               currentStudents={course.students} />
           </Box>
           <List>
-            {course.students.map((student, index) => (
+            {course.students?.map((student, index) => (
               <ListItem key={index} divider>
                 {`${student.name} ${student.lastName}`}
                 <IconButton edge="end" onClick={() => handleRemoveStudent(student.id)} sx={{ color: "red" }}>
