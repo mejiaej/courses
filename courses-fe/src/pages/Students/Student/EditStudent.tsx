@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { StudentModel } from "../../../models/StudentModel";
 import { StudentApi } from "../../../api/StudentApi";
 import StudentForm from "./StudentForm";
+import { PATHS } from "../../../constants/api.constants";
 
 export const EditStudent = () => {
   const { id } = useParams();
   const [student, setStudent] = useState<StudentModel>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) return;
@@ -18,12 +20,19 @@ export const EditStudent = () => {
 
 
   const handleStudentSave = (student: StudentModel) => {
-    console.log(student);
+    StudentApi.putStudent(student)
+      .then(() => {
+        navigate(PATHS.students);
+      }
+      );
   };
 
   if (!student) return null;
 
   return (
-    <StudentForm student={student} onStudentSave={handleStudentSave} />
+    <StudentForm
+      student={student}
+      onStudentSave={handleStudentSave}
+    />
   );
 }

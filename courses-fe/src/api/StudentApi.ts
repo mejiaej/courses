@@ -9,6 +9,9 @@ export const StudentApi = {
   postStudent: (student: StudentModel) => {
     return axios.post(`${BASE_URL}/student`, student);
   },
+  putStudent: (student: StudentModel) => {
+    return axios.put(`${BASE_URL}/student/${student.id}`, student);
+  },
   getStudentById: (studentId: number) => {
     return axios.get(`${BASE_URL}/student/${studentId}`);
   },
