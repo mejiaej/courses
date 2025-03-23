@@ -9,6 +9,8 @@ import { generatePath, useNavigate } from "react-router-dom";
 import { PATHS } from "../../constants/api.constants";
 import { StyledBoxContainer } from "../../components/StyledBoxContainer/StyledBoxContainer";
 import { StyledHeaderContainer } from "./Course.styles";
+import { Row } from "@tanstack/react-table";
+import { CourseModel } from "../../models/CourseModel";
 
 export const columns = [
   {
@@ -30,7 +32,7 @@ export const columns = [
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => {
+    cell: ({ row }: { row: Row<CourseModel> }) => {
       const id = row?.original?.id;
       const navigate = useNavigate();
       const editPath = generatePath(PATHS.editCourse, { id });

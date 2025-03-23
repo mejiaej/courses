@@ -9,6 +9,8 @@ import { generatePath, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { StyledBoxContainer } from "../../components/StyledBoxContainer/StyledBoxContainer";
 import { PATHS } from "../../constants/api.constants";
+import { Row } from "@tanstack/react-table";
+import { StudentModel } from "../../models/StudentModel";
 
 const columns = [
   {
@@ -26,14 +28,14 @@ const columns = [
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: ({ row }) => {
+    cell: ({ row }: { row: Row<StudentModel> }) => {
       const id = row?.original?.id;
       const navigate = useNavigate();
       const editPath = generatePath(PATHS.editStudent, { id });
 
       const handleDelete = async (studentId?: number) => {
         if (!studentId) return;
-      
+
         await StudentApi.deleteStudent(studentId);
         navigate(0);
       };
