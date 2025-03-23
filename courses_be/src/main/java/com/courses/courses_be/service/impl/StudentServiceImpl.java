@@ -1,7 +1,8 @@
 package com.courses.courses_be.service.impl;
 
+import com.courses.courses_be.dto.StudentCoursesDTOMapper;
 import com.courses.courses_be.dto.StudentDTO;
-import com.courses.courses_be.dto.StudentDtoMapper;
+import com.courses.courses_be.dto.StudentDTOMapper;
 import com.courses.courses_be.entity.CourseEntity;
 import com.courses.courses_be.entity.StudentCourseEntity;
 import com.courses.courses_be.entity.StudentEntity;
@@ -31,14 +32,14 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentDTO> getAllStudents() {
         List<StudentEntity> students = studentRepository.findAll();
         return students.stream()
-            .map(student -> StudentDtoMapper.fromEntity(student, false))
+            .map(student -> StudentDTOMapper.fromEntity(student, false))
             .collect(Collectors.toList());
     }
 
     @Override
     public StudentDTO findStudentById(Long studentId) {
         StudentEntity studentEntity = studentRepository.findStudentWithCoursesById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
-        return StudentDtoMapper.fromEntity(studentEntity, true);
+        return StudentDTOMapper.fromEntity(studentEntity, true);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class StudentServiceImpl implements StudentService {
             newStudentCourseEntity.setStudent(studentEntity);
             return newStudentCourseEntity;
         }).toList();
-        studentCourseRepository.saveAll(studentCourseEntities);
+        studentCourseRepository.saveAll(StudentCoursesDTOMapper.fromDTO(studentDTO, studentEntity));
     }
 
     @Override
@@ -64,14 +65,7 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.save(studentEntity);
 
         studentCourseRepository.deleteAll(studentEntity.getStudentCourses());
-
-        List<StudentCourseEntity> studentCourseEntities = studentDTO.getCourses().stream().map(courseDTO -> {
-            StudentCourseEntity newStudentCourseEntity = new StudentCourseEntity();
-            newStudentCourseEntity.setCourse(new CourseEntity(courseDTO.getId(), null, null, null));
-            newStudentCourseEntity.setStudent(studentEntity);
-            return newStudentCourseEntity;
-        }).toList();
-        studentCourseRepository.saveAll(studentCourseEntities);
+        studentCourseRepository.saveAll(StudentCoursesDTOMapper.fromDTO(studentDTO, studentEntity));
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.courses.courses_be.service.impl;
 
 import com.courses.courses_be.dto.CourseDTO;
-import com.courses.courses_be.dto.CourseDtoMapper;
-import com.courses.courses_be.dto.StudentDtoMapper;
+import com.courses.courses_be.dto.CourseDTOMapper;
+import com.courses.courses_be.dto.StudentCoursesDTOMapper;
 import com.courses.courses_be.entity.CourseEntity;
 import com.courses.courses_be.entity.StudentCourseEntity;
 import com.courses.courses_be.entity.StudentEntity;
@@ -31,28 +31,21 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseDTO> getAllCourses() {
         List<CourseEntity> courseEntities = courseRepository.findAll();
         return courseEntities.stream()
-                .map(course -> CourseDtoMapper.fromEntity(course, false))
+                .map(course -> CourseDTOMapper.fromEntity(course, false))
                 .collect(Collectors.toList());
     }
 
     @Override
     public CourseDTO findCourseById(Long courseId) {
         CourseEntity courseEntity = courseRepository.findCoursetWithStudentsById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
-        return CourseDtoMapper.fromEntity(courseEntity, true);
+        return CourseDTOMapper.fromEntity(courseEntity, true);
     }
 
     @Override
     public void saveCourse(CourseDTO courseDTO) {
         CourseEntity courseEntity = new CourseEntity(null, courseDTO.getTitle(), courseDTO.getDescription(), null);
         courseRepository.save(courseEntity);
-
-        List<StudentCourseEntity> studentCourseEntities = courseDTO.getStudents().stream().map(student -> {
-            StudentCourseEntity newStudentCourseEntity = new StudentCourseEntity();
-            newStudentCourseEntity.setCourse(courseEntity);
-            newStudentCourseEntity.setStudent(new StudentEntity(student.getId(), null, null, null));
-            return newStudentCourseEntity;
-        }).toList();
-        studentCourseRepository.saveAll(studentCourseEntities);
+        studentCourseRepository.saveAll(StudentCoursesDTOMapper.fromDTO(courseDTO, courseEntity));
     }
 
     @Override
@@ -64,15 +57,7 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(courseEntity);
 
         studentCourseRepository.deleteAll(courseEntity.getStudentCourses());
-
-        List<StudentCourseEntity> studentCourseEntities = courseDTO.getStudents().stream().map(student -> {
-            StudentCourseEntity newStudentCourseEntity = new StudentCourseEntity();
-            newStudentCourseEntity.setCourse(courseEntity);
-            newStudentCourseEntity.setStudent(new StudentEntity(student.getId(), null, null, null));
-            return newStudentCourseEntity;
-        }).toList();
-
-        studentCourseRepository.saveAll(studentCourseEntities);
+        studentCourseRepository.saveAll(StudentCoursesDTOMapper.fromDTO(courseDTO, courseEntity));
     }
 
     @Override

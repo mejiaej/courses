@@ -4,7 +4,7 @@ import com.courses.courses_be.entity.CourseEntity;
 
 import java.util.stream.Collectors;
 
-public class CourseDtoMapper {
+public class CourseDTOMapper {
     public static CourseDTO fromEntity(CourseEntity courseEntity, boolean mapNested) {
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setId(courseEntity.getId());
@@ -14,7 +14,7 @@ public class CourseDtoMapper {
         if (mapNested && courseEntity.getStudentCourses() != null && !courseEntity.getStudentCourses().isEmpty()) {
             courseDTO.setStudents(
                 courseEntity.getStudentCourses().stream()
-                    .map(sc -> StudentDtoMapper.fromEntity(sc.getStudent(), false))
+                    .map(sc -> StudentDTOMapper.fromEntity(sc.getStudent(), false))
                     .collect(Collectors.toList())
             );
         }
