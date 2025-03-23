@@ -77,14 +77,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public void deleteStudent(Long studentId) {
-        StudentEntity studentEntity = studentRepository.findById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
+        StudentEntity studentEntity = studentRepository.findStudentWithCoursesById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
 
-        List<StudentCourseEntity> studentCourseList = studentEntity.getStudentCourses();
-
-        if (!studentCourseList.isEmpty()) {
-            studentCourseRepository.deleteAll(studentCourseList);
-        }
-
+        studentCourseRepository.deleteAll(studentEntity.getStudentCourses());
         studentRepository.delete(studentEntity);
     }
 }
