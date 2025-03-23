@@ -1,26 +1,30 @@
+import { useNavigate } from "react-router-dom";
+import { StudentApi } from "../../../api/StudentApi";
 import { StudentModel } from "../../../models/StudentModel";
 import StudentForm from "./StudentForm";
+import { PATHS } from "../../../constants/api.constants";
 
 const newStudent = {
-  id: 0,
   name: "",
   lastName: "",
   courses: [],
 }
 
 export const NewStudent = () => {
+  const navigate = useNavigate();
 
   const handleStudentSave = (student: StudentModel) => {
-    console.log(student);
+    StudentApi.postStudent(student)
+      .then(() => {
+        navigate(PATHS.students);
+      }
+      );
   };
 
   return (
-    <div>
-      <h1>New Student</h1>
-      <StudentForm
-        student={newStudent}
-        onStudentSave={handleStudentSave}
-      />
-    </div>
+    <StudentForm
+      student={newStudent}
+      onStudentSave={handleStudentSave}
+    />
   );
 }
