@@ -10,12 +10,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import { StyledBoxContainer } from "../../components/StyledBoxContainer/StyledBoxContainer";
 import { PATHS } from "../../constants/api.constants";
 
-const handleDelete = async (studentId?: number) => {
-  if (!studentId) return;
-
-  await StudentApi.deleteStudent(studentId);
-};
-
 const columns = [
   {
     accessorKey: "id",
@@ -36,6 +30,14 @@ const columns = [
       const id = row?.original?.id;
       const navigate = useNavigate();
       const editPath = generatePath(PATHS.editStudent, { id });
+
+      const handleDelete = async (studentId?: number) => {
+        if (!studentId) return;
+      
+        await StudentApi.deleteStudent(studentId);
+        navigate(0);
+      };
+
       return (
         <Box sx={{ display: "flex", gap: 1 }}>
           <Button
