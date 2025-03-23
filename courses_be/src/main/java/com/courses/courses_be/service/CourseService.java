@@ -12,7 +12,7 @@ public interface CourseService {
 
     void saveCourse(CourseDTO course);
 
-    CourseEntity updateCourse(Long courseId, CourseEntity course);
+    void updateCourse(Long courseId, CourseDTO course);
 
     void deleteCourse(Long courseId);
 }

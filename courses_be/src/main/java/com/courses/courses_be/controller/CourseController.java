@@ -32,15 +32,15 @@ public class CourseController {
     }
 
     @PostMapping()
-    public ResponseEntity<CourseEntity> saveCourse(@RequestBody CourseDTO course) {
+    public ResponseEntity<?> saveCourse(@RequestBody CourseDTO course) {
         courseService.saveCourse(course);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CourseEntity> updateCourse(@PathVariable(name = "id") Long id, @RequestBody CourseEntity course) {
-        CourseEntity courseEntity = courseService.updateCourse(id, course);
-        return ResponseEntity.ok(courseEntity);
+    public ResponseEntity<?> updateCourse(@PathVariable(name = "id") Long id, @RequestBody CourseDTO course) {
+        courseService.updateCourse(id, course);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

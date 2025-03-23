@@ -57,26 +57,30 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public CourseEntity updateCourse(Long courseId, CourseEntity updatedCourse) {
-        CourseEntity courseEntity = courseRepository.findById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
+    public void updateCourse(Long courseId, CourseDTO courseDTO) {
+        CourseEntity courseEntity = courseRepository.findCoursetWithStudentsById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
+        courseEntity.setTitle(courseDTO.getTitle());
+        courseEntity.setDescription(courseDTO.getDescription());
+        courseRepository.save(courseEntity);
 
-        courseEntity.setTitle(updatedCourse.getTitle());
-        courseEntity.setDescription(updatedCourse.getDescription());
+        studentCourseRepository.deleteAll(courseEntity.getStudentCourses());
 
-        return courseRepository.save(courseEntity);
+        List<StudentCourseEntity> studentCourseEntities = courseDTO.getStudents().stream().map(student -> {
+            StudentCourseEntity newStudentCourseEntity = new StudentCourseEntity();
+            newStudentCourseEntity.setCourse(courseEntity);
+            newStudentCourseEntity.setStudent(new StudentEntity(student.getId(), null, null, null));
+            return newStudentCourseEntity;
+        }).toList();
+
+        studentCourseRepository.saveAll(studentCourseEntities);
     }
 
     @Override
     @Transactional
     public void deleteCourse(Long courseId) {
-        CourseEntity courseEntity = courseRepository.findById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
+        CourseEntity courseEntity = courseRepository.findCoursetWithStudentsById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
 
-        List<StudentCourseEntity> studentCourseList = courseEntity.getStudentCourses();
-
-        if (!studentCourseList.isEmpty()) {
-            studentCourseRepository.deleteAll(studentCourseList);
-        }
-
+        studentCourseRepository.deleteAll(courseEntity.getStudentCourses());
         courseRepository.delete(courseEntity);
     }
 }
