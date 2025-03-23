@@ -57,12 +57,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public StudentEntity updateStudent(Long studentId, StudentEntity updatedStudent) {
-        StudentEntity studentEntity = studentRepository.findById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
-        studentEntity.setLastName(updatedStudent.getLastName());
-        studentEntity.setName(updatedStudent.getName());
+    public void updateStudent(Long studentId, StudentDTO studentDTO) {
+        StudentEntity studentEntity = studentRepository.findStudentWithCoursesById(studentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found : id " + studentId));
+        studentEntity.setLastName(studentDTO.getLastName());
+        studentEntity.setName(studentDTO.getName());
+        studentRepository.save(studentEntity);
 
-        return studentRepository.save(studentEntity);
+        studentCourseRepository.deleteAll(studentEntity.getStudentCourses());
+
+        List<StudentCourseEntity> studentCourseEntities = studentDTO.getCourses().stream().map(courseDTO -> {
+            StudentCourseEntity newStudentCourseEntity = new StudentCourseEntity();
+            newStudentCourseEntity.setCourse(new CourseEntity(courseDTO.getId(), null, null, null));
+            newStudentCourseEntity.setStudent(studentEntity);
+            return newStudentCourseEntity;
+        }).toList();
+        studentCourseRepository.saveAll(studentCourseEntities);
     }
 
     @Override

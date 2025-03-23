@@ -12,7 +12,7 @@ public interface StudentService {
 
     void saveStudent(StudentDTO student);
 
-    StudentEntity updateStudent(Long studentId, StudentEntity student);
+    void updateStudent(Long studentId, StudentDTO studentDTO);
 
     void deleteStudent(Long studentId);
 }
