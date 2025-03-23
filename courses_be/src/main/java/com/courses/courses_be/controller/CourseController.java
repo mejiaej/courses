@@ -20,8 +20,8 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping
-    public ResponseEntity<List<CourseEntity>> getCourses() {
-        List<CourseEntity> coursesList = courseService.getAllCourses();
+    public ResponseEntity<?> getCourses() {
+        List<CourseDTO> coursesList = courseService.getAllCourses();
         return ResponseEntity.status(HttpStatus.OK).body(coursesList);
     }
 
@@ -32,9 +32,9 @@ public class CourseController {
     }
 
     @PostMapping()
-    public ResponseEntity<CourseEntity> saveCourse(@RequestBody CourseEntity course) {
-        CourseEntity courseEntity = courseService.saveCourse(course);
-        return ResponseEntity.ok(courseEntity);
+    public ResponseEntity<CourseEntity> saveCourse(@RequestBody CourseDTO course) {
+        courseService.saveCourse(course);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")

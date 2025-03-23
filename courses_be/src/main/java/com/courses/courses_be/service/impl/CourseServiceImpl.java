@@ -2,8 +2,10 @@ package com.courses.courses_be.service.impl;
 
 import com.courses.courses_be.dto.CourseDTO;
 import com.courses.courses_be.dto.CourseDtoMapper;
+import com.courses.courses_be.dto.StudentDtoMapper;
 import com.courses.courses_be.entity.CourseEntity;
 import com.courses.courses_be.entity.StudentCourseEntity;
+import com.courses.courses_be.entity.StudentEntity;
 import com.courses.courses_be.repository.CourseRepository;
 import com.courses.courses_be.repository.StudentCourseRepository;
 import com.courses.courses_be.service.CourseService;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -25,8 +28,11 @@ public class CourseServiceImpl implements CourseService {
     private StudentCourseRepository studentCourseRepository;
 
     @Override
-    public List<CourseEntity> getAllCourses() {
-        return courseRepository.findAll();
+    public List<CourseDTO> getAllCourses() {
+        List<CourseEntity> courseEntities = courseRepository.findAll();
+        return courseEntities.stream()
+                .map(course -> CourseDtoMapper.fromEntity(course, false))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -36,8 +42,17 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseEntity saveCourse(CourseEntity course) {
-        return courseRepository.save(course);
+    public void saveCourse(CourseDTO courseDTO) {
+        CourseEntity courseEntity = new CourseEntity(null, courseDTO.getTitle(), courseDTO.getDescription(), null);
+        courseRepository.save(courseEntity);
+
+        List<StudentCourseEntity> studentCourseEntities = courseDTO.getStudents().stream().map(student -> {
+            StudentCourseEntity newStudentCourseEntity = new StudentCourseEntity();
+            newStudentCourseEntity.setCourse(courseEntity);
+            newStudentCourseEntity.setStudent(new StudentEntity(student.getId(), null, null, null));
+            return newStudentCourseEntity;
+        }).toList();
+        studentCourseRepository.saveAll(studentCourseEntities);
     }
 
     @Override

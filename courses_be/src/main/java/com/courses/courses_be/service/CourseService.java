@@ -6,11 +6,11 @@ import com.courses.courses_be.entity.CourseEntity;
 import java.util.List;
 
 public interface CourseService {
-    List<CourseEntity> getAllCourses();
+    List<CourseDTO> getAllCourses();
 
     CourseDTO findCourseById(Long courseId);
 
-    CourseEntity saveCourse(CourseEntity course);
+    void saveCourse(CourseDTO course);
 
     CourseEntity updateCourse(Long courseId, CourseEntity course);
 
