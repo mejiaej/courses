@@ -56,7 +56,7 @@ const CoursesButtonModal = ({
       >
         <StyledModalCard>
           <Typography variant="h6" component="h2">
-            Cursos Disponibles
+            Available Courses
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <FormControl fullWidth sx={{ marginTop: 4 }}>
@@ -69,7 +69,7 @@ const CoursesButtonModal = ({
               >
                 {availableCourses.map((course) => (
                   <MenuItem key={course.id} value={course.id}>
-                    {course.title}
+                    {`${course.code} - ${course.title}`}
                   </MenuItem>
                 ))}
               </Select>

@@ -56,7 +56,7 @@ const StudentsButtonModal = ({
       >
         <StyledModalCard>
           <Typography variant="h6" component="h2">
-            Cursos Disponibles
+            Available Students
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <FormControl fullWidth sx={{ marginTop: 4 }}>

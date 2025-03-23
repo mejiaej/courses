@@ -101,7 +101,7 @@ const StudentForm = (props: StudentFormProps) => {
           <List>
             {student.courses.map((course, index) => (
               <ListItem key={index} divider>
-                {course.title}
+                {`${course.code} - ${course.title}`}
                 <IconButton edge="end" onClick={() => handleRemoveCourse(course.id)} sx={{ color: "red" }}>
                   <CancelIcon />
                 </IconButton>
