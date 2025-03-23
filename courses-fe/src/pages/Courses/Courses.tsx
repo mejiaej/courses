@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteButtonModal from "../../components/DeleteButtonModal/DeleteButtonModal";
 import { CourseApi } from "../../api/CourseApi";
 import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
+import { generatePath, useNavigate } from "react-router-dom";
 import { PATHS } from "../../constants/api.constants";
 import { StyledBoxContainer } from "../../components/StyledBoxContainer/StyledBoxContainer";
 import { StyledHeaderContainer } from "./Course.styles";
@@ -26,18 +26,30 @@ export const columns = [
   {
     accessorKey: "actions",
     header: "Actions",
-    cell: () => {
+    cell: ({ row }) => {
+      const id = row?.original?.id;
+      const navigate = useNavigate();
+      const editPath = generatePath(PATHS.editCourse, { id });
+
+      const handleDelete = async (courseId?: number) => {
+        if (!courseId) return;
+      
+        await CourseApi.deleteCourse(courseId);
+        navigate(0);
+      };
+
       return (
         <Box sx={{ display: "flex", gap: 1 }}>
           <Button
             variant="contained"
             color="secondary"
             startIcon={<EditIcon />}
+            onClick={() => navigate(editPath)}
           >
             Edit
           </Button>
           <DeleteButtonModal
-            handleDelete={() => console.log("")}
+            handleDelete={() => handleDelete(id)}
             message="This action cannot be undone. Are you sure you want to delete the course?"
           />
         </Box>
@@ -67,7 +79,7 @@ const Courses = () => {
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={() => navigate(PATHS.course)}
+            onClick={() => navigate(PATHS.newCourse)}
           >
             Add
           </Button>

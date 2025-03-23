@@ -44,7 +44,9 @@ const StudentForm = (props: StudentFormProps) => {
     }
   };
 
-  const handleRemoveCourse = (courseId: number) => {
+  const handleRemoveCourse = (courseId: number | undefined) => {
+    if (!courseId) return;
+
     setStudent((prev) => ({
       ...prev,
       courses: prev.courses.filter((course) => course.id !== courseId),

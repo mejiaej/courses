@@ -14,31 +14,31 @@ import {
   StyledBoxButtonContainer,
   StyledButton,
   StyledModalCard,
-} from "./CoursesButtonModal.styles";
+} from "./StudentsButtonModal.styles";
 import { useState } from "react";
-import { CoursesButtonModalProps } from "./CoursesButtonModal.types";
+import { StudentsButtonModalProps } from "./StudentsButtonModal.types";
 
-const CoursesButtonModal = ({
-  onCourseSelected,
-  courses,
-  currentCourses,
-}: CoursesButtonModalProps) => {
+const StudentsButtonModal = ({
+  onStudentSelected,
+  students,
+  currentStudents,
+}: StudentsButtonModalProps) => {
   const [open, setOpen] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     const value = event?.target?.value;
-    setSelectedCourse(value);
+    setSelectedStudent(value);
   };
 
   const handleSave = () => {
-    onCourseSelected(parseInt(selectedCourse));
-    setSelectedCourse("");
+    onStudentSelected(parseInt(selectedStudent));
+    setSelectedStudent("");
     setOpen(false);
   };
 
-  const availableCourses = courses.filter(
-    (course) => !currentCourses.some((currentCourse) => currentCourse.id === course.id)
+  const availableStudents = students.filter(
+    (student) => !currentStudents.some((currentStudent) => currentStudent.id === student.id)
   );
 
   return (
@@ -60,16 +60,16 @@ const CoursesButtonModal = ({
           </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <FormControl fullWidth sx={{ marginTop: 4 }}>
-              <InputLabel id="course-label">Select a course</InputLabel>
+              <InputLabel id="student-label">Select a student</InputLabel>
               <Select
-                value={selectedCourse}
+                value={selectedStudent}
                 fullWidth
-                label="Select a course"
+                label="Select a student"
                 onChange={handleChange}
               >
-                {availableCourses.map((course) => (
-                  <MenuItem key={course.id} value={course.id}>
-                    {course.title}
+                {availableStudents.map((student) => (
+                  <MenuItem key={student.id} value={student.id}>
+                    {`${student.name} ${student.lastName}`}
                   </MenuItem>
                 ))}
               </Select>
@@ -81,7 +81,7 @@ const CoursesButtonModal = ({
               type="button"
               onClick={handleSave}
               color="secondary"
-              disabled={!selectedCourse}
+              disabled={!selectedStudent}
             >
               Add
             </StyledButton>
@@ -100,4 +100,4 @@ const CoursesButtonModal = ({
   );
 };
 
-export default CoursesButtonModal;
+export default StudentsButtonModal;
