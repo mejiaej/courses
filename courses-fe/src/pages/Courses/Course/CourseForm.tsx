@@ -88,7 +88,7 @@ const CourseForm = (props: CourseFormProps) => {
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2, my: 4, maxWidth: "600px" }}>
           <FormControl fullWidth>
-              <TextField label="Description" variant="outlined" value={course.code} onChange={handleCourseCodeChange} />
+              <TextField label="Code" variant="outlined" value={course.code} onChange={handleCourseCodeChange} />
             </FormControl>
             <FormControl fullWidth>
               <TextField label="Title" variant="outlined" value={course.title} onChange={handleCourseTitleChange} />
