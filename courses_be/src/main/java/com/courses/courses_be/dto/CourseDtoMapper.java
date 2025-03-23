@@ -9,6 +9,7 @@ public class CourseDTOMapper {
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setId(courseEntity.getId());
         courseDTO.setTitle(courseEntity.getTitle());
+        courseDTO.setCode(courseEntity.getCode());
         courseDTO.setDescription(courseEntity.getDescription());
 
         if (mapNested && courseEntity.getStudentCourses() != null && !courseEntity.getStudentCourses().isEmpty()) {

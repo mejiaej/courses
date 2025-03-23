@@ -16,6 +16,10 @@ export const columns = [
     header: "ID",
   },
   {
+    accessorKey: "code",
+    header: "Code",
+  },
+  {
     accessorKey: "title",
     header: "Title",
   },

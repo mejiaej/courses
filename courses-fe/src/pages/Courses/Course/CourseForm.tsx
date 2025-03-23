@@ -61,6 +61,14 @@ const CourseForm = (props: CourseFormProps) => {
     }));
   };
 
+  const handleCourseCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newCode = event.target.value;
+    setCourse((prev) => ({
+      ...prev,
+      code: newCode,
+    }));
+  };
+
   const handleRemoveStudent = (studentId: number | undefined) => {
     if (!studentId) return;
 
@@ -79,6 +87,9 @@ const CourseForm = (props: CourseFormProps) => {
             Course
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2, my: 4, maxWidth: "600px" }}>
+          <FormControl fullWidth>
+              <TextField label="Description" variant="outlined" value={course.code} onChange={handleCourseCodeChange} />
+            </FormControl>
             <FormControl fullWidth>
               <TextField label="Title" variant="outlined" value={course.title} onChange={handleCourseTitleChange} />
             </FormControl>

@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.save(studentEntity);
         List<StudentCourseEntity> studentCourseEntities = studentDTO.getCourses().stream().map(courseDTO -> {
             StudentCourseEntity newStudentCourseEntity = new StudentCourseEntity();
-            newStudentCourseEntity.setCourse(new CourseEntity(courseDTO.getId(), null, null, null));
+            newStudentCourseEntity.setCourse(new CourseEntity(courseDTO.getId(), null, null, null, null));
             newStudentCourseEntity.setStudent(studentEntity);
             return newStudentCourseEntity;
         }).toList();

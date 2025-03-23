@@ -12,6 +12,7 @@ import java.util.List;
 public class CourseDTO {
     private Long id;
     private String title;
+    private String code;
     private String description;
     private List<StudentDTO> students;
 }

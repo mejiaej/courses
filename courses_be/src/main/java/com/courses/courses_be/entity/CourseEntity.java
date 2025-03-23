@@ -23,6 +23,9 @@ public class CourseEntity {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "description")
     private String description;
 

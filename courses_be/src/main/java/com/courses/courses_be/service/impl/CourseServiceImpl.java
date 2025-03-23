@@ -43,7 +43,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void saveCourse(CourseDTO courseDTO) {
-        CourseEntity courseEntity = new CourseEntity(null, courseDTO.getTitle(), courseDTO.getDescription(), null);
+        CourseEntity courseEntity = new CourseEntity(null, courseDTO.getTitle(), courseDTO.getCode(), courseDTO.getDescription(), null);
         courseRepository.save(courseEntity);
         studentCourseRepository.saveAll(StudentCoursesDTOMapper.fromDTO(courseDTO, courseEntity));
     }
@@ -52,6 +52,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public void updateCourse(Long courseId, CourseDTO courseDTO) {
         CourseEntity courseEntity = courseRepository.findCoursetWithStudentsById(courseId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found : id " + courseId));
+        courseEntity.setCode(courseDTO.getCode());
         courseEntity.setTitle(courseDTO.getTitle());
         courseEntity.setDescription(courseDTO.getDescription());
         courseRepository.save(courseEntity);
