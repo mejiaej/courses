@@ -38,7 +38,7 @@ The Frontend uses:
 
 ### Start project
 
-First you need to position yourself on the `courses-fee` directory. Remember the project was createde using `Node 20(v20.19.0)`
+First you need to position yourself on the `courses-fe` directory. Remember the project was createde using `Node 20(v20.19.0)`
 
 ```bash
 # This will initiate the database with the schema
